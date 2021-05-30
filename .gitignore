@@ -1,0 +1,8 @@
+/target
+*.iml
+*.mwb
+/idea
+*.docx
+*.txt
+*.xml
+*.bak

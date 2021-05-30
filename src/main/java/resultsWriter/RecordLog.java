@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecordLog {
-    private final static String pathToLogFile = "E:/PROGRAMOWANIE/Step/Calculator/recordLog.txt";
+    private final static String pathToLogFile = "E:/PROGRAMOWANIE/Step_podstawowy/Calculator/recordLog.txt";
 
     public static void logFileExistCheck() {
         File file = new File(pathToLogFile);
