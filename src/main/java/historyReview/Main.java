@@ -27,7 +27,7 @@ public class Main {
                 System.out.println("Niepoprawny wybór. Spróbój jeszcze raz");
 
             }
-        } while (('1' != chosenReviewModel) && (chosenReviewModel !='2') && (chosenReviewModel !='3') && (chosenReviewModel !='4'));
+        } while (('1' != chosenReviewModel) && (chosenReviewModel != '2') && (chosenReviewModel != '3') && (chosenReviewModel != '4'));
 
         switch (chosenReviewModel) {
             case '1': {
@@ -64,15 +64,7 @@ public class Main {
 
     public void showHistoryFromStartDate() {
         Calculators calculatorsViewer = readFromXml();
-        LocalDateTime startDate = LocalDateTime.now().plusDays(1);
-        do {
-            try {
-                startDate = LocalDateTime.parse(enteringDates.enterDate("początkową"), formatter);
-            } catch (DateTimeParseException e) {
-                System.out.println("Podaj poprawny format daty !!!");
-            }
-        }
-        while (startDate.isAfter(LocalDateTime.now()));
+        LocalDateTime startDate = readDate("startową");
 
         System.out.println("Znalezione operacje: ");
         assert calculatorsViewer != null;
@@ -85,16 +77,7 @@ public class Main {
 
     public void showHistoryToEndDate() {
         Calculators calculatorsViewer = readFromXml();
-        LocalDateTime endDate = LocalDateTime.now().plusDays(1);
-        do {
-            try {
-                endDate = LocalDateTime.parse(enteringDates.enterDate("końcową"), formatter);
-            } catch (DateTimeParseException e) {
-                System.out.println("Podaj poprawny format daty !!!");
-            }
-        }
-        while (endDate.isAfter(LocalDateTime.now()));
-
+        LocalDateTime endDate = readDate("końcową");
         System.out.println("Znalezione operacje: ");
         assert calculatorsViewer != null;
         for (CalculatorResults element : calculatorsViewer.getCalculatorsArrayList()) {
@@ -106,24 +89,8 @@ public class Main {
 
     public void showHistoryBetweenDates() {
         Calculators calculatorsViewer = readFromXml();
-        LocalDateTime startDate = LocalDateTime.now().plusDays(1);
-        LocalDateTime endDate = LocalDateTime.now().plusDays(1);
-        do {
-            try {
-                startDate = LocalDateTime.parse(enteringDates.enterDate("początkową"), formatter);
-            } catch (DateTimeParseException e) {
-                System.out.println("Podaj poprawny format daty !!!");
-            }
-        } while (startDate.isAfter(LocalDateTime.now()));
-
-        do {
-            try {
-                endDate = LocalDateTime.parse(enteringDates.enterDate("końcową"), formatter);
-            } catch (DateTimeParseException e) {
-                System.out.println("Podaj poprawny format daty !!!");
-            }
-        } while (endDate.isAfter(LocalDateTime.now()));
-
+        LocalDateTime startDate = readDate("startową");
+        LocalDateTime endDate = readDate("końcową");
         System.out.println("Znalezione operacje: ");
         assert calculatorsViewer != null;
         for (CalculatorResults element : calculatorsViewer.getCalculatorsArrayList()) {
@@ -132,6 +99,18 @@ public class Main {
 
             }
         }
+    }
+
+    public LocalDateTime readDate(String startOrEnd) {
+        LocalDateTime date = null;
+        do {
+            try {
+                date = LocalDateTime.parse(enteringDates.enterDate(startOrEnd), formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("Podaj poprawny format daty !!!");
+            }
+        } while (date == null || date.isAfter(LocalDateTime.now()));
+        return date;
     }
 }
 
