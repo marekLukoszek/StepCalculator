@@ -6,13 +6,14 @@ import calculator.Calculator;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
     public static void startCounting() {
         System.out.println();
         System.out.println("Rozpoczynamy liczenie !!!");
-        DataReader dataReader = new DataReader();
+        DataReader dataReader = new DataReader(new Scanner(System.in));
         CalculatorResults calculatorResults = new CalculatorResults();
         calculatorResults.setOperationDate(LocalDateTime.now());
         char actionChoice = dataReader.getOperationChoice();

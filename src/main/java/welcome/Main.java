@@ -1,44 +1,55 @@
 package welcome;
 
-import static dataReader.DataReader.charScanner;
+import dataReader.DataReader;
+import historyReview.EnteringDates;
+
+import javax.xml.crypto.Data;
+import java.util.Scanner;
+
 import static resultsWriter.Main.updateXml;
 
 public class Main {
+    private final historyReview.Main historyMain;
+
+    public Main(historyReview.Main historyMain) {
+        this.historyMain = historyMain;
+    }
 
     public static void main(String[] args) {
 
             Thread thread = createThreadUpdateXml();
             thread.start();
 
-            mainMenu();
+            new Main(new historyReview.Main(new EnteringDates(new DataReader(new Scanner(System.in))))).mainMenu();
 
         }
 
-        public static void mainMenu() {
+        public void mainMenu() {
             char userChoice;
+            DataReader dataReader = new DataReader(new Scanner(System.in));
             do {
-                userChoice = getMainChoice();
+                userChoice = getMainChoice(dataReader);
                 proceedMainChoice(userChoice);
 
             } while (!('0' == userChoice));
         }
 
-        public static char getMainChoice() {
+        public static char getMainChoice(DataReader dataReader) {
             System.out.println();
             System.out.println("Proszę wybrać tryb działania aplikacji:");
             System.out.println("1 : Kalkulator");
             System.out.println("2 : Przeglądanie historii");
             System.out.println("0 : Wyjście z aplikacji");
-            return charScanner();
+            return dataReader.charScanner();
         }
 
 
-        public static void proceedMainChoice(char userChoice) {
+        public void proceedMainChoice(char userChoice) {
             if ('1' == userChoice) {
                 dataReader.Main.startCounting();
 
             } else if ('2' == userChoice) {
-                historyReview.Main.startSearching();
+                historyMain.startSearching();
 
             } else if ('0' == userChoice) {
                 System.exit(0);

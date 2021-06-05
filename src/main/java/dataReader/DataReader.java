@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DataReader {
-    private static final Scanner myScanner = new Scanner(System.in);
+    private final Scanner myScanner;
 
-    public static char charScanner() {
+    public DataReader(Scanner scanner) {
+        this.myScanner = scanner;
+    }
+
+    public char charScanner() {
         String temp;
         do {
             try {
@@ -113,7 +117,7 @@ public class DataReader {
         return argumentsList;
     }
 
-    public static String stringScanner() {
+    public String stringScanner() {
         return myScanner.nextLine();
     }
 }

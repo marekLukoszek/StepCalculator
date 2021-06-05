@@ -1,24 +1,28 @@
 package historyReview;
 
 import calculationResults.CalculatorResults;
-import calculator.Calculator;
 import calculationResults.Calculators;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import static historyReview.EnteringDates.*;
 import static resultsWriter.Main.readFromXml;
 
 
 public class Main {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
-    public static void startSearching() {
+    private final EnteringDates enteringDates;
+
+    public Main(EnteringDates enteringDates) {
+        this.enteringDates = enteringDates;
+    }
+
+    public void startSearching() {
         char chosenReviewModel;
         do {
-            chosenReviewModel = chooseReviewModel();
+            chosenReviewModel = enteringDates.chooseReviewModel();
             if (chosenReviewModel != '1' && chosenReviewModel != '2' && chosenReviewModel != '3' && chosenReviewModel != '4') {
                 System.out.println("Niepoprawny wybór. Spróbój jeszcze raz");
 
@@ -58,12 +62,12 @@ public class Main {
         }
     }
 
-    public static void showHistoryFromStartDate() {
+    public void showHistoryFromStartDate() {
         Calculators calculatorsViewer = readFromXml();
         LocalDateTime startDate = LocalDateTime.now().plusDays(1);
         do {
             try {
-                startDate = LocalDateTime.parse(enterDate("początkową"), formatter);
+                startDate = LocalDateTime.parse(enteringDates.enterDate("początkową"), formatter);
             } catch (DateTimeParseException e) {
                 System.out.println("Podaj poprawny format daty !!!");
             }
@@ -79,12 +83,12 @@ public class Main {
         }
     }
 
-    public static void showHistoryToEndDate() {
+    public void showHistoryToEndDate() {
         Calculators calculatorsViewer = readFromXml();
         LocalDateTime endDate = LocalDateTime.now().plusDays(1);
         do {
             try {
-                endDate = LocalDateTime.parse(enterDate("końcową"), formatter);
+                endDate = LocalDateTime.parse(enteringDates.enterDate("końcową"), formatter);
             } catch (DateTimeParseException e) {
                 System.out.println("Podaj poprawny format daty !!!");
             }
@@ -100,13 +104,13 @@ public class Main {
         }
     }
 
-    public static void showHistoryBetweenDates() {
+    public void showHistoryBetweenDates() {
         Calculators calculatorsViewer = readFromXml();
         LocalDateTime startDate = LocalDateTime.now().plusDays(1);
         LocalDateTime endDate = LocalDateTime.now().plusDays(1);
         do {
             try {
-                startDate = LocalDateTime.parse(enterDate("początkową"), formatter);
+                startDate = LocalDateTime.parse(enteringDates.enterDate("początkową"), formatter);
             } catch (DateTimeParseException e) {
                 System.out.println("Podaj poprawny format daty !!!");
             }
@@ -114,7 +118,7 @@ public class Main {
 
         do {
             try {
-                endDate = LocalDateTime.parse(enterDate("końcową"), formatter);
+                endDate = LocalDateTime.parse(enteringDates.enterDate("końcową"), formatter);
             } catch (DateTimeParseException e) {
                 System.out.println("Podaj poprawny format daty !!!");
             }
