@@ -8,16 +8,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import static resultsWriter.Main.readFromXml;
-
-
 public class Main {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
     private final EnteringDates enteringDates;
+    private final resultsWriter.Main resultsWriter;
 
-    public Main(EnteringDates enteringDates) {
+    public Main(EnteringDates enteringDates, resultsWriter.Main resultsWriter) {
         this.enteringDates = enteringDates;
+        this.resultsWriter = resultsWriter;
     }
 
     public void startSearching() {
@@ -56,12 +55,12 @@ public class Main {
 
     public void showFullHistory() {
         System.out.println("Znalezione operacje: ");
-        Calculators calculatorsViewer = readFromXml();
+        Calculators calculatorsViewer = resultsWriter.readFromXml();
         printResults(calculatorsViewer, null, null);
     }
 
     public void showHistoryFromStartDate() {
-        Calculators calculatorsViewer = readFromXml();
+        Calculators calculatorsViewer = resultsWriter.readFromXml();
         LocalDateTime startDate = readDate("startową");
 
         System.out.println("Znalezione operacje: ");
@@ -69,14 +68,14 @@ public class Main {
     }
 
     public void showHistoryToEndDate() {
-        Calculators calculatorsViewer = readFromXml();
+        Calculators calculatorsViewer = resultsWriter.readFromXml();
         LocalDateTime endDate = readDate("końcową");
         System.out.println("Znalezione operacje: ");
         printResults(calculatorsViewer, null, endDate);
     }
 
     public void showHistoryBetweenDates() {
-        Calculators calculatorsViewer = readFromXml();
+        Calculators calculatorsViewer = resultsWriter.readFromXml();
         LocalDateTime startDate = readDate("startową");
         LocalDateTime endDate = readDate("końcową");
         System.out.println("Znalezione operacje: ");
@@ -98,19 +97,22 @@ public class Main {
 
     public void printResults(Calculators calculatorsViewer, LocalDateTime startDate, LocalDateTime endDate){
         if(calculatorsViewer == null){
-            System.out.println("Parametr CalculatorViewer jest nullem");
+            printText("Parametr CalculatorViewer jest nullem");
             return;
         }
         if(startDate != null && endDate != null && startDate.isAfter(endDate)){
-            System.out.println("Data początkowa jest późniejsza niż końcowa");
+            printText("Data początkowa jest późniejsza niż końcowa");
             return;
         }
         for (CalculatorResults element : calculatorsViewer.getCalculatorsArrayList()) {
             if ((startDate == null || startDate.isBefore(element.getOperationDate())) && (endDate == null || endDate.isAfter(element.getOperationDate()))) {
-                System.out.println(element);
+                printText(element.toString());
             }
         }
+    }
 
+    public void printText(String text){
+        System.out.println(text);
     }
 }
 

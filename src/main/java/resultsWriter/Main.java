@@ -21,7 +21,7 @@ public class Main {
         bufferedCalculators.add(0, calculatorResults);
     }
 
-    public static void updateXml() {
+    public void updateXml() {
 
         //aktualizuje recordFile
         logFileExistCheck();
@@ -47,7 +47,7 @@ public class Main {
         }
     }
 
-    public static Calculators readFromXml() {
+    public Calculators readFromXml() {
         try {
             return JAXB.unmarshal(new File(pathToArchiveXml), Calculators.class);
         } catch (DataBindingException e) {
