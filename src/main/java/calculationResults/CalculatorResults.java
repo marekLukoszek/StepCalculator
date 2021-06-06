@@ -71,7 +71,7 @@ public class CalculatorResults {
             this.setOperationType(OperationType.MULTIPLICATION);
         }
     }
-
+    @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i <= getArguments().size() - 1; i++) {
