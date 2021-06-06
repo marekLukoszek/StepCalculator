@@ -51,6 +51,7 @@ public class Main {
         try {
             return JAXB.unmarshal(new File(pathToArchiveXml), Calculators.class);
         } catch (DataBindingException e) {
+            System.out.println("Plik nie istnieje lub jego struktura jest niepoprawna " + pathToArchiveXml);
             return null;
         }
     }
