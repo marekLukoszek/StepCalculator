@@ -2,11 +2,10 @@ package historyReview;
 
 import calculationResults.CalculatorResults;
 import calculationResults.Calculators;
-import calculator.Calculator;
 import calculator.OperationType;
-import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.internal.verification.Times;
 import org.mockito.invocation.InvocationOnMock;
@@ -15,7 +14,6 @@ import org.mockito.stubbing.Answer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -36,7 +34,7 @@ public class MainTest {
             int counter = 0;
 
             @Override
-            public String answer(InvocationOnMock invocationOnMock){
+            public String answer(InvocationOnMock invocationOnMock) {
                 counter++;
                 if (counter == 1) {
                     return "abcd";
@@ -116,5 +114,128 @@ public class MainTest {
         historyReviewSpy.showHistoryBetweenDates();
         verify(historyReviewSpy, new Times(1)).printResults(calculators, startDate, endDate);
     }
+
+    @Test
+    void showHistoryToEndDate() {
+        EnteringDates enteringDatesMock = Mockito.mock(EnteringDates.class);
+        resultsWriter.Main resultsWriterMock = Mockito.mock(resultsWriter.Main.class);
+
+        Main historyReview = new Main(enteringDatesMock, resultsWriterMock);
+        Main historyReviewSpy = spy(historyReview);
+        doNothing().when(historyReviewSpy).printResults(any(), any(), any());
+        LocalDateTime endDate = LocalDateTime.of(2021, 6, 1, 12, 0, 0);
+
+        doReturn(endDate).when(historyReviewSpy).readDate("końcową");
+
+        Calculators calculators = new Calculators(new ArrayList<>());
+        when(resultsWriterMock.readFromXml()).thenReturn(calculators);
+
+        historyReviewSpy.showHistoryToEndDate();
+        verify(historyReviewSpy, new Times(1)).printResults(calculators, null, endDate);
+    }
+
+    @Test
+    void showHistoryFromStartDate() {
+        EnteringDates enteringDatesMock = Mockito.mock(EnteringDates.class);
+        resultsWriter.Main resultsWriterMock = Mockito.mock(resultsWriter.Main.class);
+
+        Main historyReview = new Main(enteringDatesMock, resultsWriterMock);
+        Main historyReviewSpy = spy(historyReview);
+        doNothing().when(historyReviewSpy).printResults(any(), any(), any());
+        LocalDateTime startDate = LocalDateTime.of(2021, 4, 1, 12, 0, 0);
+
+        doReturn(startDate).when(historyReviewSpy).readDate("startową");
+
+        Calculators calculators = new Calculators(new ArrayList<>());
+        when(resultsWriterMock.readFromXml()).thenReturn(calculators);
+
+        historyReviewSpy.showHistoryFromStartDate();
+        verify(historyReviewSpy, new Times(1)).printResults(calculators, startDate, null);
+    }
+
+    @Test
+    void showFullHistory() {
+        EnteringDates enteringDatesMock = mock(EnteringDates.class);
+        resultsWriter.Main resultsWriterMock = mock(resultsWriter.Main.class);
+
+        Main historyReview = new Main(enteringDatesMock, resultsWriterMock);
+        Main historyReviewSpy = spy(historyReview);
+        doNothing().when(historyReviewSpy).printResults(any(), any(), any());
+
+        Calculators calculators = new Calculators(new ArrayList<>());
+        when(resultsWriterMock.readFromXml()).thenReturn(calculators);
+
+        historyReviewSpy.showFullHistory();
+        verify(historyReviewSpy, new Times(1)).printResults(calculators, null, null);
+    }
+
+    @Test
+    void startSearching() {
+        resultsWriter.Main resultsWriterMock = mock(resultsWriter.Main.class);
+        EnteringDates enteringDatesMock = mock(EnteringDates.class);
+        when(enteringDatesMock.chooseReviewModel()).thenAnswer(new Answer<Character>() {
+            int counter = 0;
+
+            @Override
+            public Character answer(InvocationOnMock invocationOnMock) throws Throwable {
+                counter++;
+                if (counter == 1) {
+                    return 'A';
+                } else if (counter == 2) {
+                    return '5';
+                } else {
+                    return '1';
+                }
+            }
+        });
+        when(enteringDatesMock.enterDate(anyString())).thenReturn("2019.02.01 12:00:00");
+        Main historyReviewMain = new Main(enteringDatesMock, resultsWriterMock);
+        historyReviewMain.startSearching();
+        verify(enteringDatesMock, new Times(3)).chooseReviewModel();
+    }
+
+    @Test
+    void startSearchingWithProperValue2() {
+        resultsWriter.Main resultsWriterMock = mock(resultsWriter.Main.class);
+        EnteringDates enteringDatesMock = mock(EnteringDates.class);
+
+        when(enteringDatesMock.chooseReviewModel()).thenReturn('2');
+        when(enteringDatesMock.enterDate(anyString())).thenReturn("01.02.2019 12:00:00");
+
+        Main historyReviewMain = new Main(enteringDatesMock, resultsWriterMock);
+        historyReviewMain.startSearching();
+        verify(enteringDatesMock, new Times(1)).chooseReviewModel();
+        Assertions.assertEquals("01.02.2019 12:00:00", enteringDatesMock.enterDate(anyString()));
+    }
+
+    @Test
+    void startSearchingWithProperValue3() {
+        resultsWriter.Main resultsWriterMock = mock(resultsWriter.Main.class);
+        EnteringDates enteringDatesMock = mock(EnteringDates.class);
+
+        when(enteringDatesMock.chooseReviewModel()).thenReturn('3');
+        when(enteringDatesMock.enterDate(anyString())).thenReturn("01.02.2019 12:00:00");
+
+        Main historyReviewMain = new Main(enteringDatesMock, resultsWriterMock);
+        historyReviewMain.startSearching();
+        verify(enteringDatesMock, new Times(1)).chooseReviewModel();
+        Assertions.assertEquals("01.02.2019 12:00:00", enteringDatesMock.enterDate(anyString()));
+    }
+
+    @Test
+    void startSearchingWithProperValue4() {
+        resultsWriter.Main resultsWriterMock = mock(resultsWriter.Main.class);
+        EnteringDates enteringDatesMock = mock(EnteringDates.class);
+
+        when(enteringDatesMock.chooseReviewModel()).thenReturn('4');
+        when(enteringDatesMock.enterDate(anyString())).thenReturn("01.02.2019 12:00:00");
+
+        Main historyReviewMain = new Main(enteringDatesMock, resultsWriterMock);
+        historyReviewMain.startSearching();
+        verify(enteringDatesMock, new Times(1)).chooseReviewModel();
+        Assertions.assertEquals("01.02.2019 12:00:00", enteringDatesMock.enterDate(anyString()));
+
+    }
 }
+
 
