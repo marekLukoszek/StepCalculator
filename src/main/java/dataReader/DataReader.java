@@ -38,7 +38,8 @@ public class DataReader {
             if (!('+' == (temp) || ('-' == (temp)) || ('*' == temp) || ('/' == temp) || ('0' == temp))) {
                 System.out.println();
                 System.out.println("Podaj prawidłowy symbol działania !!!");
-            } else if ('0' == temp) {
+            }
+            if ('0' == temp) {
                 System.exit(0);
             }
         } while (!('+' == (temp) || ('-' == (temp)) || ('*' == temp) || ('/' == temp)));
@@ -56,7 +57,7 @@ public class DataReader {
                     "przerwie wprowadzania)");
             System.out.println("0 : wyjście z aplikacji");
             temp = charScanner();
-            if (!('1' == (temp) || ('2' == (temp)) || ('3' == temp) || ('0' == temp))) {
+            if (!('1' == (temp) || ('2' == (temp)) || ('3' == temp))) {
                 System.out.println();
                 System.out.println("Niewłaściwa odpowiedź, spróbuj jeszcze raz");
             } else if ('0' == temp) {
@@ -96,8 +97,8 @@ public class DataReader {
     }
 
 
-    public ArrayList<Double> inputUnknownNumberOfArguments() {
-        ArrayList<Double> argumentsList = new ArrayList<>();
+    public List<Double> inputUnknownNumberOfArguments() {
+        List<Double> argumentsList = new ArrayList<>();
         int i = 1;
         String parameter;
         do {
@@ -113,7 +114,7 @@ public class DataReader {
                     System.out.println("Spróbuj ponownie...");
                 }
             }
-        } while (!"x".equalsIgnoreCase(parameter) || !(argumentsList.size() > 0));
+        } while (!"x".equalsIgnoreCase(parameter) || (argumentsList.size() <= 1));
         return argumentsList;
     }
 

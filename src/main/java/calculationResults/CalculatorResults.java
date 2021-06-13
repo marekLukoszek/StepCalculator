@@ -73,7 +73,7 @@ public class CalculatorResults {
     }
     @Override
     public String toString() {
-        if(getArguments().isEmpty()){
+        if(getArguments() == null || getArguments().isEmpty()){
             return "Data operacji: " + getOperationDate() + " Operacja: nieporawna ";
         }
         StringBuilder stringBuilder = new StringBuilder();

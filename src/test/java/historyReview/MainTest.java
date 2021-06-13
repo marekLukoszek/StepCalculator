@@ -5,7 +5,6 @@ import calculationResults.Calculators;
 import calculator.OperationType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.internal.verification.Times;
 import org.mockito.invocation.InvocationOnMock;
