@@ -1,5 +1,6 @@
 package welcome;
 
+import calculator.Calculator;
 import dataReader.DataReader;
 import historyReview.EnteringDates;
 
@@ -9,19 +10,22 @@ import java.util.Scanner;
 public class Main {
     private final historyReview.Main historyMain;
     private final resultsWriter.Main resultsWriter;
+    private final dataReader.Main dataReaderMain;
 
-    public Main(historyReview.Main historyMain, resultsWriter.Main resultsWriter) {
+    public Main(historyReview.Main historyMain, resultsWriter.Main resultsWriter, dataReader.Main dataReaderMain) {
         this.historyMain = historyMain;
         this.resultsWriter = resultsWriter;
+        this.dataReaderMain = dataReaderMain;
     }
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
         DataReader dataReader = new DataReader(scanner);
-        EnteringDates enteringDates = new EnteringDates(dataReader);
         resultsWriter.Main resultsWriter = new resultsWriter.Main();
-        Main main = new Main(new historyReview.Main(enteringDates, resultsWriter), resultsWriter);
+        dataReader.Main dataReaderMain = new dataReader.Main(new Calculator(), dataReader, resultsWriter);
+        EnteringDates enteringDates = new EnteringDates(dataReader);
+        Main main = new Main(new historyReview.Main(enteringDates, resultsWriter), resultsWriter, dataReaderMain);
         Thread thread = main.createThreadUpdateXml();
         thread.start();
         main.mainMenu();
@@ -49,7 +53,7 @@ public class Main {
 
     public void proceedMainChoice(char userChoice) {
         if ('1' == userChoice) {
-            dataReader.Main.startCounting();
+            dataReaderMain.startCounting();
 
         } else if ('2' == userChoice) {
             historyMain.startSearching();

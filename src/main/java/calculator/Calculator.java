@@ -6,23 +6,24 @@ import java.util.List;
 
 public class Calculator {
 
-    public static Double calculate(CalculatorResults calculatorResults, List<Double> arrayList) {
-        Double temp = arrayList.get(0);
+    public Double calculate(CalculatorResults calculatorResults) {
+        List<Double> argumentsList = calculatorResults.getArguments();
+        Double temp = argumentsList.get(0);
         if (calculatorResults.getOperationType().equals(OperationType.ADDITION)) {
-            for (int i = 1; i < arrayList.size(); i++) {
-                temp += arrayList.get(i);
+            for (int i = 1; i < argumentsList.size(); i++) {
+                temp += argumentsList.get(i);
             }
         } else if (calculatorResults.getOperationType().equals(OperationType.SUBTRACTION)) {
-            for (int i = 1; i < arrayList.size(); i++) {
-                temp -= arrayList.get(i);
+            for (int i = 1; i < argumentsList.size(); i++) {
+                temp -= argumentsList.get(i);
             }
         } else if (calculatorResults.getOperationType().equals(OperationType.MULTIPLICATION)) {
-            for (int i = 1; i < arrayList.size(); i++) {
-                temp = temp * arrayList.get(i);
+            for (int i = 1; i < argumentsList.size(); i++) {
+                temp = temp * argumentsList.get(i);
             }
         } else if (calculatorResults.getOperationType().equals(OperationType.DIVISION)) {
-            for (int i = 1; i < arrayList.size(); i++) {
-                temp = temp / arrayList.get(i);
+            for (int i = 1; i < argumentsList.size(); i++) {
+                temp = temp / argumentsList.get(i);
             }
         }
         return temp;

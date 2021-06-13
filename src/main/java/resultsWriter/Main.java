@@ -17,7 +17,7 @@ public class Main {
     public static ArrayList<CalculatorResults> bufferedCalculators = new ArrayList<>();
     public static final String pathToArchiveXml = "E:/PROGRAMOWANIE/Step_podstawowy/Calculator/historicalData.xml";
 
-    public static void startWriting(CalculatorResults calculatorResults) {
+    public void startWriting(CalculatorResults calculatorResults) {
         bufferedCalculators.add(0, calculatorResults);
     }
 

@@ -4,16 +4,23 @@ import calculationResults.CalculatorResults;
 import calculator.Calculator;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    private final Calculator calculator;
+    private final DataReader dataReader;
+    private final resultsWriter.Main resultsWriter;
 
-    public static void startCounting() {
+    public Main(Calculator calculator, DataReader dataReader, resultsWriter.Main resultsWriter) {
+        this.calculator = calculator;
+        this.dataReader = dataReader;
+        this.resultsWriter = resultsWriter;
+    }
+
+    public void startCounting() {
         System.out.println();
         System.out.println("Rozpoczynamy liczenie !!!");
-        DataReader dataReader = new DataReader(new Scanner(System.in));
         CalculatorResults calculatorResults = new CalculatorResults();
         calculatorResults.setOperationDate(LocalDateTime.now());
         char actionChoice = dataReader.getOperationChoice();
@@ -24,33 +31,44 @@ public class Main {
         switch (enteringChoice) {
             //działania na 2 parametrach
             case '1': {
-                calculatorResults.setArguments(dataReader.inputArguments(2));
-                double result = Calculator.calculate(calculatorResults, calculatorResults.getArguments());
-                System.out.println("Wynik kalkulacji to: " + result);
-                calculatorResults.setResult(result);
+                twoArgumentsOperation(calculatorResults);
                 break;
             }
             //działania na podanej liczbie argumentów
             case '2': {
-                int argumentsNumber = dataReader.inputNumberWhenMoreThanTwoArguments();
-                List<Double> argumentsList = dataReader.inputArguments(argumentsNumber);
-                calculatorResults.setArguments(argumentsList);
-                double result = Calculator.calculate(calculatorResults, argumentsList);
-                System.out.println("Wynik kalkulacji to: " + result);
-                calculatorResults.setResult(result);
+                higherNumberOfArgumentsOperation(calculatorResults);
                 break;
             }
             // działania na dowolnej ilości parametrów
             case '3': {
-                ArrayList<Double> argumentsList = dataReader.inputUnknownNumberOfArguments();
-                calculatorResults.setArguments(argumentsList);
-                double result = Calculator.calculate(calculatorResults, argumentsList);
-                System.out.println("Wynik kalkulacji to: " + result);
-                calculatorResults.setResult(result);
+                unknownNumberOfArgumentsOperation(calculatorResults);
+                break;
             }
-
+            default: {
+                System.out.println("Wybrałeś niepoprawną wartość");
+            }
         }
-        resultsWriter.Main.startWriting(calculatorResults);
+        resultsWriter.startWriting(calculatorResults);
+    }
+
+    private void twoArgumentsOperation(CalculatorResults calculatorResults){
+        operations(calculatorResults, dataReader.inputArguments(2) );
+    }
+
+    private void higherNumberOfArgumentsOperation(CalculatorResults calculatorResults){
+        operations(calculatorResults, dataReader.inputArguments(dataReader.inputNumberWhenMoreThanTwoArguments()));
+    }
+
+    protected void unknownNumberOfArgumentsOperation(CalculatorResults calculatorResults){
+        operations(calculatorResults, dataReader.inputUnknownNumberOfArguments());
+    }
+
+    protected void operations(CalculatorResults calculatorResults, List<Double> argumentsList){
+        calculatorResults.setArguments(argumentsList);
+        double result = calculator.calculate(calculatorResults);
+        System.out.println("Wynik kalkulacji to: " + result);
+        calculatorResults.setResult(result);
+
     }
 }
 
