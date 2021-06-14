@@ -51,11 +51,11 @@ public class Main {
         resultsWriter.startWriting(calculatorResults);
     }
 
-    private void twoArgumentsOperation(CalculatorResults calculatorResults){
+    protected void twoArgumentsOperation(CalculatorResults calculatorResults){
         operations(calculatorResults, dataReader.inputArguments(2) );
     }
 
-    private void higherNumberOfArgumentsOperation(CalculatorResults calculatorResults){
+    protected void higherNumberOfArgumentsOperation(CalculatorResults calculatorResults){
         operations(calculatorResults, dataReader.inputArguments(dataReader.inputNumberWhenMoreThanTwoArguments()));
     }
 

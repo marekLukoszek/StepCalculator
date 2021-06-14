@@ -50,6 +50,35 @@ public class MainTest {
         verify(main, new Times(1)).operations(calculatorResults, argumentsList);
 
     }
+    @Test
+    void higherNumberOfArgumentsOperation(){
+        DataReader dataReaderMock = mock(DataReader.class);
+        List<Double> argumentsList = List.of(1.0, 2.0, 3.0);
+        when(dataReaderMock.inputArguments(3)).thenReturn(argumentsList);
+        when(dataReaderMock.inputNumberWhenMoreThanTwoArguments()).thenReturn(3);
+
+        CalculatorResults calculatorResults = new CalculatorResults();
+        Main main = spy(new Main(null, dataReaderMock, null));
+        doNothing().when(main).operations(calculatorResults, argumentsList);
+        main.higherNumberOfArgumentsOperation(calculatorResults);
+        verify(main, new Times(1)).operations(calculatorResults, argumentsList);
+
+    }
+
+    @Test
+    void twoArgumentsOperation(){
+        DataReader dataReaderMock = mock(DataReader.class);
+        List<Double> argumentsList = List.of(1.0, 2.0);
+        when(dataReaderMock.inputArguments(2)).thenReturn(argumentsList);
+
+        CalculatorResults calculatorResults = new CalculatorResults();
+        Main main = spy(new Main(null, dataReaderMock, null));
+        doNothing().when(main).operations(calculatorResults, argumentsList);
+        main.twoArgumentsOperation(calculatorResults);
+        verify(main, new Times(1)).operations(calculatorResults, argumentsList);
+
+    }
+
 //    @Test
 //    void startCounting(){
 //        DataReader dataReaderMock = mock(DataReader.class);
