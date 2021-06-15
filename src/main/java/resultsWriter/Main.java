@@ -1,7 +1,6 @@
 package resultsWriter;
 
 import calculationResults.CalculatorResults;
-import calculator.Calculator;
 import calculationResults.Calculators;
 
 import javax.xml.bind.DataBindingException;
@@ -17,17 +16,21 @@ public class Main {
     public static ArrayList<CalculatorResults> bufferedCalculators = new ArrayList<>();
     public static final String pathToArchiveXml = "E:/PROGRAMOWANIE/Step_podstawowy/Calculator/historicalData.xml";
 
-    public void startWriting(CalculatorResults calculatorResults) {
+
+
+    public static void startWriting(CalculatorResults calculatorResults) {
         bufferedCalculators.add(0, calculatorResults);
     }
 
     public void updateXml() {
 
         //aktualizuje recordFile
+
         logFileExistCheck();
         List<String> logFileLines = readLogFile();
         List<String> newLogFileLines = updateLogFileLinesArray(bufferedCalculators, logFileLines);
         writeNewLogFile(newLogFileLines);
+
         //aktualizuję xml jeśli w buforze jest nowa kalkulacja
         if (bufferedCalculators.size() != 0) {
             Calculators calculators = readFromXml();
@@ -56,7 +59,7 @@ public class Main {
         }
     }
 
-    public static void writeResultsToXML(Calculators calculators) {
+    public void writeResultsToXML(Calculators calculators) {
         JAXB.marshal(calculators, new File(pathToArchiveXml));
     }
 
