@@ -1,7 +1,7 @@
 package resultsWriter;
 
 import calculationResults.CalculatorResults;
-import calculator.Calculator;
+
 
 import java.io.*;
 import java.time.LocalDateTime;

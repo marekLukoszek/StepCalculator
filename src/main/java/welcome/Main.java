@@ -3,6 +3,7 @@ package welcome;
 import calculator.Calculator;
 import dataReader.DataReader;
 import historyReview.EnteringDates;
+import resultsWriter.RecordLog;
 
 import java.util.Scanner;
 
