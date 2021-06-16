@@ -25,11 +25,11 @@ public class Main {
     public void updateXml() {
 
         //aktualizuje recordFile
-
-        logFileExistCheck();
-        List<String> logFileLines = readLogFile();
-        List<String> newLogFileLines = updateLogFileLinesArray(bufferedCalculators, logFileLines);
-        writeNewLogFile(newLogFileLines);
+        RecordLog recordLog = new RecordLog();
+        recordLog.logFileExistCheck();
+        List<String> logFileLines = recordLog.readLogFile();
+        List<String> newLogFileLines = recordLog.updateLogFileLinesArray(bufferedCalculators, logFileLines);
+        recordLog.writeNewLogFile(newLogFileLines);
 
         //aktualizuję xml jeśli w buforze jest nowa kalkulacja
         if (bufferedCalculators.size() != 0) {
