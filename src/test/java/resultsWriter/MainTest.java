@@ -26,7 +26,7 @@ public class MainTest {
         calculators.setCalculatorsArrayList(calculatorResultsList);
 
         when(mainMock.readFromXml()).thenReturn(calculators);
-        mainMock.readFromXml();
+        //mainMock.readFromXml();
         Assertions.assertEquals(1, calculators.getCalculatorsArrayList().size());
 
     }
