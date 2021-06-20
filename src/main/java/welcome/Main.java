@@ -23,7 +23,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         DataReader dataReader = new DataReader(scanner);
-        resultsWriter.Main resultsWriter = new resultsWriter.Main();
+        resultsWriter.Main resultsWriter = new resultsWriter.Main(new RecordLog());
         dataReader.Main dataReaderMain = new dataReader.Main(new Calculator(), dataReader, resultsWriter);
         EnteringDates enteringDates = new EnteringDates(dataReader);
         Main main = new Main(new historyReview.Main(enteringDates, resultsWriter), resultsWriter, dataReaderMain);
@@ -71,7 +71,7 @@ public class Main {
             try {
                 do {
                     Thread.sleep(10000);
-                    resultsWriter.updateXml();
+                    resultsWriter.updateFiles();
                 } while (true);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();

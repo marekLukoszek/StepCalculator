@@ -9,46 +9,56 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static resultsWriter.RecordLog.*;
-
 
 public class Main {
-    public static ArrayList<CalculatorResults> bufferedCalculators = new ArrayList<>();
-    public static final String pathToArchiveXml = "E:/PROGRAMOWANIE/Step_podstawowy/Calculator/historicalData.xml";
+    private final ArrayList<CalculatorResults> bufferedCalculators = new ArrayList<>();
+    public final static String pathToArchiveXml = "E:/PROGRAMOWANIE/Step_podstawowy/Calculator/historicalData.xml";
+    private final static String pathToLogFile = "E:/PROGRAMOWANIE/Step_podstawowy/Calculator/recordLog.txt";
+    private final RecordLog recordLog;
+
+    public Main(RecordLog recordLog) {
+        this.recordLog = recordLog;
+    }
+
+    protected void addElement(CalculatorResults calculatorResults){
+        bufferedCalculators.add(calculatorResults);
+    }
 
 
-
-    public static void startWriting(CalculatorResults calculatorResults) {
+    public void startWriting(CalculatorResults calculatorResults) {
         bufferedCalculators.add(0, calculatorResults);
     }
 
-    public void updateXml() {
+    public void updateFiles() {
+        updateLogFile();
+        updateXml();
+    }
 
-        //aktualizuje recordFile
-        RecordLog recordLog = new RecordLog();
-        recordLog.logFileExistCheck();
-        List<String> logFileLines = recordLog.readLogFile();
+
+    public void updateLogFile() {
+        recordLog.logFileExistCheck(pathToLogFile);
+        List<String> logFileLines = recordLog.readLogFile(pathToLogFile);
         List<String> newLogFileLines = recordLog.updateLogFileLinesArray(bufferedCalculators, logFileLines);
-        recordLog.writeNewLogFile(newLogFileLines);
+        recordLog.writeNewLogFile(newLogFileLines, pathToLogFile);
+    }
 
-        //aktualizuję xml jeśli w buforze jest nowa kalkulacja
+    public void updateXml() {
         if (bufferedCalculators.size() != 0) {
             Calculators calculators = readFromXml();
-            ArrayList<CalculatorResults> list;
+            ArrayList<CalculatorResults> list = new ArrayList<>();
             if (calculators != null && calculators.getCalculatorsArrayList() != null) {
-                list = calculators.getCalculatorsArrayList();
-                list.addAll(0, bufferedCalculators);
+                list.addAll(bufferedCalculators);
+                list.addAll(calculators.getCalculatorsArrayList());
                 calculators.setCalculatorsArrayList(list);
             } else {
                 calculators = new Calculators();
-                calculators.setCalculatorsArrayList(bufferedCalculators);
+                calculators.setCalculatorsArrayList(new ArrayList<>(bufferedCalculators));
             }
-
             writeResultsToXML(calculators);
             bufferedCalculators.clear();
-
         }
     }
+
 
     public Calculators readFromXml() {
         try {
