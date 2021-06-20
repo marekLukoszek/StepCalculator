@@ -9,16 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecordLog {
-    private final static String pathToLogFile = "E:/PROGRAMOWANIE/Step_podstawowy/Calculator/recordLog.txt";
 
-    public static void logFileExistCheck() {
+    public RecordLog() {
+    }
+
+    public void logFileExistCheck(String pathToLogFile) {
         File file = new File(pathToLogFile);
         if (!file.exists()) {
-            createRecordLog();
+            createRecordLog(pathToLogFile);
         }
     }
 
-    public static void createRecordLog() {
+    public void createRecordLog(String pathToLogFile) {
         try (PrintWriter printWriter = new PrintWriter(pathToLogFile)) {
             printWriter.write("RECORD LOG UTWORZONY: " + LocalDateTime.now().toString());
 
@@ -27,7 +29,7 @@ public class RecordLog {
         }
     }
 
-    public static List<String> readLogFile() {
+    public List<String> readLogFile(String pathToLogFile) {
         List<String> logFileLines = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(pathToLogFile))) {
             String line;
@@ -46,7 +48,7 @@ public class RecordLog {
         return logFileLines;
     }
 
-    public static List<String> updateLogFileLinesArray(ArrayList<CalculatorResults> bufferedCalculators,
+    public List<String> updateLogFileLinesArray(List<CalculatorResults> bufferedCalculators,
                                                        List<String> logFileLinesArray) {
         if (bufferedCalculators.size() > 0) {
             logFileLinesArray.add(0, LocalDateTime.now() + " - Zapisano operacji: "
@@ -58,7 +60,7 @@ public class RecordLog {
         return logFileLinesArray;
     }
 
-    public static void writeNewLogFile(List<String> logFileLine) {
+    public void writeNewLogFile(List<String> logFileLine, String pathToLogFile) {
         try (PrintWriter printWriter = new PrintWriter(pathToLogFile)) {
             for (String element : logFileLine) {
                 printWriter.write(element);
