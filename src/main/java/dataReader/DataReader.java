@@ -13,16 +13,16 @@ public class DataReader {
 
     public char charScanner() {
         String temp;
-        do {
-            try {
-                System.out.println("Proszę podać swój wybór (tylko 1 cyfra lub znak):");
-                temp = myScanner.nextLine();
-            } catch (StringIndexOutOfBoundsException e) {
+            System.out.println("Proszę podać swój wybór (tylko 1 cyfra lub znak):");
+            temp = myScanner.nextLine();
+            if (temp.length() > 0) {
+                return temp.charAt(0);
+            }else{
                 return '9';
             }
-        } while (temp.length() > 1);
-        return temp.charAt(0);
     }
+
+
 
     public char getOperationChoice() {
         char temp;

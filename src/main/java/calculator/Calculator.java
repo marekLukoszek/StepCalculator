@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Calculator {
 
-    public Double calculate(CalculatorResults calculatorResults) {
+    public static Double calculate(CalculatorResults calculatorResults) {
         List<Double> argumentsList = calculatorResults.getArguments();
         Double temp = argumentsList.get(0);
         if (calculatorResults.getOperationType().equals(OperationType.ADDITION)) {

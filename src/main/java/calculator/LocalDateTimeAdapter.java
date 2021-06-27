@@ -2,6 +2,7 @@ package calculator;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
 public class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
 
@@ -10,7 +11,12 @@ public class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
         if (s == null) {
             return null;
         }
-        return LocalDateTime.parse(s);
+        try {
+            return LocalDateTime.parse(s);
+        } catch (DateTimeParseException e) {
+            System.out.println("Nieudane parsowanie daty " + s);
+            return null;
+        }
     }
 
     @Override

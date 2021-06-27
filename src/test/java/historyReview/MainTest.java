@@ -235,6 +235,11 @@ public class MainTest {
         Assertions.assertEquals("01.02.2019 12:00:00", enteringDatesMock.enterDate(anyString()));
 
     }
+
+    @Test
+   void startWriting(){
+        
+    }
 }
 
 
