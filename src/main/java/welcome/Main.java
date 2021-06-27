@@ -24,7 +24,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         DataReader dataReader = new DataReader(scanner);
         resultsWriter.Main resultsWriter = new resultsWriter.Main(new RecordLog());
-        dataReader.Main dataReaderMain = new dataReader.Main(new Calculator(), dataReader, resultsWriter);
+        dataReader.Main dataReaderMain = new dataReader.Main(dataReader, resultsWriter);
         EnteringDates enteringDates = new EnteringDates(dataReader);
         Main main = new Main(new historyReview.Main(enteringDates, resultsWriter), resultsWriter, dataReaderMain);
         Thread thread = main.createThreadUpdateXml();
@@ -42,7 +42,7 @@ public class Main {
         } while (!('0' == userChoice));
     }
 
-    public static char getMainChoice(DataReader dataReader) {
+    public char getMainChoice(DataReader dataReader) {
         System.out.println();
         System.out.println("Proszę wybrać tryb działania aplikacji:");
         System.out.println("1 : Kalkulator");

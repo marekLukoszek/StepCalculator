@@ -7,13 +7,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
+import static calculator.Calculator.calculate;
+
 public class Main {
-    private final Calculator calculator;
     private final DataReader dataReader;
     private final resultsWriter.Main resultsWriter;
 
-    public Main(Calculator calculator, DataReader dataReader, resultsWriter.Main resultsWriter) {
-        this.calculator = calculator;
+    public Main(DataReader dataReader, resultsWriter.Main resultsWriter) {
         this.dataReader = dataReader;
         this.resultsWriter = resultsWriter;
     }
@@ -24,6 +24,7 @@ public class Main {
         CalculatorResults calculatorResults = new CalculatorResults();
         calculatorResults.setOperationDate(LocalDateTime.now());
         char actionChoice = dataReader.getOperationChoice();
+
         //ustawiam w kalkulatorze typ działania
         calculatorResults.setOperationsType(actionChoice);
 
@@ -65,7 +66,7 @@ public class Main {
 
     protected void operations(CalculatorResults calculatorResults, List<Double> argumentsList){
         calculatorResults.setArguments(argumentsList);
-        double result = calculator.calculate(calculatorResults);
+        double result = calculate(calculatorResults);
         System.out.println("Wynik kalkulacji to: " + result);
         calculatorResults.setResult(result);
 

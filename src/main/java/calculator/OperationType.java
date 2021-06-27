@@ -4,8 +4,7 @@ public enum OperationType {
     ADDITION("+"),
     SUBTRACTION("-"),
     MULTIPLICATION("*"),
-    DIVISION("/"),
-    SAMPLE("?");
+    DIVISION("/");
 
     private final String sign;
 

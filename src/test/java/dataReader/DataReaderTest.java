@@ -6,7 +6,9 @@ import org.mockito.internal.verification.Times;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import javax.xml.crypto.Data;
 import java.util.List;
+import java.util.Scanner;
 
 import static org.mockito.Mockito.*;
 
@@ -165,5 +167,24 @@ public class DataReaderTest {
         verify(dataReaderMock, new Times(1)).charScanner();
     }
 
+    @Test
+    void testStringScanner() {
 
+        Scanner scannerMock = mock(Scanner.class);
+        when(scannerMock.nextLine()).thenReturn("Test scannera");
+
+        DataReader dataReader = new DataReader(scannerMock);
+
+        Assertions.assertEquals("Test scannera", dataReader.stringScanner());
+    }
+
+    @Test
+    void testCharScanner(){
+        Scanner scannerMock = mock(Scanner.class);
+        when(scannerMock.nextLine()).thenReturn("","123");
+
+        DataReader dataReader = new DataReader(scannerMock);
+        Assertions.assertEquals('9', dataReader.charScanner());
+        Assertions.assertEquals('1', dataReader.charScanner());
+    }
 }
